@@ -16,6 +16,7 @@ export interface usersAttributes {
   user_username?: string;
   user_phone_number?: string;
   user_password?: string;
+  user_role?: number;
 }
 
 @Table({ tableName: 'users', schema: 'public', timestamps: false })
@@ -48,4 +49,7 @@ export class users
 
   @Column({ allowNull: true, type: DataType.STRING(255) })
   user_password?: string;
+
+  @Column({ allowNull: true, type: DataType.INTEGER })
+  user_role?: number;
 }

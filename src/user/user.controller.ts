@@ -6,18 +6,32 @@ import {
   Param,
   Delete,
   Put,
+  HttpStatus,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('create')
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.createUser(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    try {
+      const salt = await bcrypt.genSalt(10);
+      const hashPass = await bcrypt.hash(createUserDto.user_password, salt);
+
+      await this.userService.createUser({
+        ...createUserDto,
+        user_password: hashPass,
+      });
+
+      return { status: HttpStatus.OK, message: 'User success created' };
+    } catch (e) {
+      return { status: HttpStatus.BAD_REQUEST, message: e };
+    }
   }
 
   @Get()
