@@ -8,12 +8,16 @@ import {
   Put,
   HttpStatus,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RoleGuard } from 'src/auth/role/role.guard';
+import { Roles } from 'src/auth/roles/roles.decorator';
+import Role from 'src/auth/role/role.enum';
 
 @Controller('user')
 export class UserController {
@@ -36,8 +40,9 @@ export class UserController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get()
+  @Roles(Role.Admin)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   findAll() {
     return this.userService.findAllUser();
   }
