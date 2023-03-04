@@ -141,7 +141,7 @@ export class ProductCategoryController {
       let finalImageUrl: string;
 
       if (file) {
-        if (existsSync(`upload/service/${path.parse(oldImage).base}`)) {
+        if (existsSync(`upload/category/${path.parse(oldImage).base}`)) {
           unlink('upload/category/' + path.parse(oldImage).base, (err) => {
             if (err) throw err;
           });
@@ -190,7 +190,7 @@ export class ProductCategoryController {
 
       if (
         existsSync(
-          `upload/service/${path.parse(categoryProduct.category_image).base}`,
+          `upload/category/${path.parse(categoryProduct.category_image).base}`,
         )
       ) {
         unlink(

@@ -6,6 +6,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { AuthModule } from './auth/auth.module';
 import { ProductCategoryModule } from './product_category/product_category.module';
 import { ServiceModule } from './service/service.module';
+import { QuoteModule } from './quote/quote.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ServiceModule } from './service/service.module';
     AuthModule,
     ProductCategoryModule,
     ServiceModule,
+    QuoteModule,
   ],
   controllers: [AppController],
   providers: [AppService],
