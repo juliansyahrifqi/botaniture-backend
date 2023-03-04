@@ -11,7 +11,7 @@ export function FileUpload(fieldName: string, destFolder: string) {
     UseInterceptors(
       FileInterceptor(fieldName, {
         fileFilter(req, file, callback) {
-          if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+          if (!file.originalname.match(/\.(jpg|jpeg|png|gif|svg|)$/)) {
             return callback(
               new UnsupportedMediaTypeException('File is not an image'),
               false,

@@ -19,7 +19,7 @@ import { UpdateProductCategoryDto } from './dto/update-product_category.dto';
 import { FileUpload } from 'src/decorator/uploadFile.decorator';
 import { Request } from 'express';
 import slugify from 'slugify';
-import { unlink } from 'fs';
+import { existsSync, unlink } from 'fs';
 import * as path from 'path';
 
 @Controller('product-category')
@@ -141,9 +141,11 @@ export class ProductCategoryController {
       let finalImageUrl: string;
 
       if (file) {
-        unlink('upload/category/' + path.parse(oldImage).base, (err) => {
-          if (err) throw err;
-        });
+        if (existsSync(`upload/service/${path.parse(oldImage).base}`)) {
+          unlink('upload/category/' + path.parse(oldImage).base, (err) => {
+            if (err) throw err;
+          });
+        }
 
         finalImageUrl =
           req.protocol +
@@ -186,12 +188,18 @@ export class ProductCategoryController {
         };
       }
 
-      unlink(
-        'upload/category/' + path.parse(categoryProduct.category_image).base,
-        (err) => {
-          if (err) throw err;
-        },
-      );
+      if (
+        existsSync(
+          `upload/service/${path.parse(categoryProduct.category_image).base}`,
+        )
+      ) {
+        unlink(
+          'upload/category/' + path.parse(categoryProduct.category_image).base,
+          (err) => {
+            if (err) throw err;
+          },
+        );
+      }
 
       await this.productCategoryService.deleteProductCategory(+id);
 
