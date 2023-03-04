@@ -8,7 +8,6 @@ import {
   Put,
   HttpStatus,
   UseGuards,
-  Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -48,16 +47,22 @@ export class UserController {
   }
 
   @Get(':id')
+  @Roles(Role.Admin)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   findOne(@Param('id') id: string) {
     return this.userService.findUserById(+id);
   }
 
   @Put('update/:id')
+  @Roles(Role.Admin, Role.User)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.updateUser(+id, updateUserDto);
   }
 
   @Delete('delete/:id')
+  @Roles(Role.Admin)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   remove(@Param('id') id: string) {
     return this.userService.deleteUser(+id);
   }
