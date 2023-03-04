@@ -13,6 +13,7 @@ export interface product_categoryAttributes {
   category_name?: string;
   category_description?: string;
   category_slug?: string;
+  category_image?: string;
 }
 
 @Table({ tableName: 'product_category', schema: 'public', timestamps: false })
@@ -38,4 +39,7 @@ export class product_category
 
   @Column({ allowNull: true, type: DataType.STRING(255) })
   category_slug?: string;
+
+  @Column({ allowNull: true, type: DataType.STRING(255) })
+  category_image?: string;
 }
