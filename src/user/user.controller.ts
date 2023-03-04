@@ -42,28 +42,76 @@ export class UserController {
   @Get()
   @Roles(Role.Admin)
   @UseGuards(JwtAuthGuard, RoleGuard)
-  findAll() {
-    return this.userService.findAllUser();
+  async findAll() {
+    try {
+      const user = this.userService.findAllUser();
+
+      if (user === null)
+        return { status: HttpStatus.NOT_FOUND, message: 'User not found' };
+
+      return user;
+    } catch (e) {
+      return { status: HttpStatus.BAD_REQUEST, message: e };
+    }
   }
 
   @Get(':id')
   @Roles(Role.Admin)
   @UseGuards(JwtAuthGuard, RoleGuard)
-  findOne(@Param('id') id: string) {
-    return this.userService.findUserById(+id);
+  async findOne(@Param('id') id: string) {
+    try {
+      const user = await this.userService.findUserById(+id);
+
+      if (user === null)
+        return { status: HttpStatus.NOT_FOUND, message: 'User not found' };
+
+      return user;
+    } catch (e) {
+      return { status: HttpStatus.BAD_REQUEST, message: e };
+    }
   }
 
   @Put('update/:id')
   @Roles(Role.Admin, Role.User)
   @UseGuards(JwtAuthGuard, RoleGuard)
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.updateUser(+id, updateUserDto);
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    try {
+      const user = await this.userService.findUserById(+id);
+
+      if (user === null) {
+        return { status: HttpStatus.NOT_FOUND, message: 'User not found' };
+      }
+
+      const salt = await bcrypt.genSalt(10);
+      const passHash = await bcrypt.hash(updateUserDto.user_password, salt);
+
+      await this.userService.updateUser(+id, {
+        ...updateUserDto,
+        user_password: passHash,
+      });
+
+      return { status: HttpStatus.ACCEPTED, message: 'User success updated' };
+    } catch (e) {
+      return { status: HttpStatus.BAD_REQUEST, message: e };
+    }
   }
 
   @Delete('delete/:id')
   @Roles(Role.Admin)
   @UseGuards(JwtAuthGuard, RoleGuard)
-  remove(@Param('id') id: string) {
-    return this.userService.deleteUser(+id);
+  async remove(@Param('id') id: string) {
+    try {
+      const user = await this.userService.findUserById(+id);
+
+      if (user === null) {
+        return { status: HttpStatus.NOT_FOUND, message: 'User not found' };
+      }
+
+      await this.userService.deleteUser(+id);
+
+      return { status: HttpStatus.OK, message: 'User sucessfully deleted' };
+    } catch (e) {
+      return { status: HttpStatus.BAD_REQUEST, message: e };
+    }
   }
 }
