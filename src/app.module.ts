@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { ProductCategoryModule } from './product_category/product_category.module';
 import { ServiceModule } from './service/service.module';
 import { QuoteModule } from './quote/quote.module';
+import { PaymentMethodModule } from './payment-method/payment-method.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { QuoteModule } from './quote/quote.module';
     ProductCategoryModule,
     ServiceModule,
     QuoteModule,
+    PaymentMethodModule,
   ],
   controllers: [AppController],
   providers: [AppService],
