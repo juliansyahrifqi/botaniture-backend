@@ -18,7 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "pg:generate": "stg -D postgres -o models -h localhost -p 5432 -d Botaniture -u postgres -x 123456 --clean "
+    "pg:generate": "stg -D postgres -o models -h localhost -p 5432 -d Botaniture -u postgres -x 123456 --indices --associations-file associations.csv --clean"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",

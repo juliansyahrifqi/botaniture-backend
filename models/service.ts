@@ -26,6 +26,7 @@ export class service
     type: DataType.INTEGER,
     defaultValue: Sequelize.literal("nextval('service_id_seq'::regclass)"),
   })
+  @Index({ name: 'service_pkey', using: 'btree', unique: true })
   id?: number;
 
   @Column({ allowNull: true, type: DataType.STRING(255) })

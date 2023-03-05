@@ -21,6 +21,7 @@ export class quote
   implements quoteAttributes
 {
   @Column({ primaryKey: true, type: DataType.INTEGER })
+  @Index({ name: 'quote_pkey', using: 'btree', unique: true })
   id!: number;
 
   @Column({ allowNull: true, type: DataType.STRING(255) })

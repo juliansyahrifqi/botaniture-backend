@@ -29,6 +29,7 @@ export class product_category
       "nextval('product_category_id_seq'::regclass)",
     ),
   })
+  @Index({ name: 'product_category_pkey', using: 'btree', unique: true })
   id?: number;
 
   @Column({ allowNull: true, type: DataType.STRING(255) })
