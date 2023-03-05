@@ -181,7 +181,7 @@ export class PaymentMethodController {
   @Delete('delete/:id')
   async remove(@Param('id') id: string) {
     try {
-      const payment = this.paymentMethodService.getPaymentMehodById(+id);
+      const payment = await this.paymentMethodService.getPaymentMehodById(+id);
 
       if (payment === null) {
         return {
@@ -193,13 +193,13 @@ export class PaymentMethodController {
       if (
         existsSync(
           `upload/payment-method/${
-            path.parse((await payment).payment_method_image).base
+            path.parse(payment.payment_method_image).base
           }`,
         )
       ) {
         unlink(
           'upload/payment-method/' +
-            path.parse((await payment).payment_method_image).base,
+            path.parse(payment.payment_method_image).base,
           (err) => {
             if (err) throw err;
           },

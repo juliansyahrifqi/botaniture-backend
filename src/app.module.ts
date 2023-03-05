@@ -8,6 +8,7 @@ import { ProductCategoryModule } from './product_category/product_category.modul
 import { ServiceModule } from './service/service.module';
 import { QuoteModule } from './quote/quote.module';
 import { PaymentMethodModule } from './payment-method/payment-method.module';
+import { BlogsModule } from './blogs/blogs.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { PaymentMethodModule } from './payment-method/payment-method.module';
     ServiceModule,
     QuoteModule,
     PaymentMethodModule,
+    BlogsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
