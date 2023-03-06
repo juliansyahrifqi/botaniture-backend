@@ -9,6 +9,7 @@ import { ServiceModule } from './service/service.module';
 import { QuoteModule } from './quote/quote.module';
 import { PaymentMethodModule } from './payment-method/payment-method.module';
 import { BlogsModule } from './blogs/blogs.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { BlogsModule } from './blogs/blogs.module';
     QuoteModule,
     PaymentMethodModule,
     BlogsModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],
